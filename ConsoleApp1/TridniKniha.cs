@@ -6,8 +6,8 @@ namespace AgregaceAKompozice
 
     public TridniKniha()
     {
-        // TODO
         _dochazka = new Dictionary<Student, List<ZaznamDochazky>>();
+        
     }
 
     public void ZapisDochazku(Student s, DateOnly datum, bool pritomen)
