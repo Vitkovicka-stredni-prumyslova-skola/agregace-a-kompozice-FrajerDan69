@@ -3,18 +3,18 @@ namespace AgregaceAKompozice
 public class Trida
 {
     public string Nazev { get; }
-    public List<Student> Studenti { get; }
+    public List<Student> Studenti { get; } = new ();
 
     // KOMPOZICE: třídní kniha vzniká spolu s třídou
-    public TridniKniha TridniKniha { get; } = new ();
+    public TridniKniha TridniKniha { get; }
 
     public Trida(string nazev)
     {
         if(string.IsNullOrWhiteSpace(nazev))
-                    throw new ArgumentException("Název třídy nesmí být prázdný");
+           throw new ArgumentException("Název třídy nesmí být prázdný.", nameof(nazev));
 
         Nazev = nazev.Trim();
-        
+
         TridniKniha = new TridniKniha();
     }
 
@@ -24,19 +24,18 @@ public class Trida
         if(s == null) throw new ArgumentNullException(nameof(s));
 
         if(Studenti.Contains(s))
-            throw new InvalidOperationException("Student již je ve třídě zapsán");
-
-            if(s == null) throw new ArgumentNullException(nameof(s));
-        
-        if(!Studenti.Contains(s))
-            throw new InvalidOperationException("Student není ve třídě zapsán");
+            throw new InvalidOperationException("Student již je ve třídě zapsán.");
 
         Studenti.Add(s);
-        
     }
 
     public void OdeberStudenta(Student s)
     {
+        if(s == null) throw new ArgumentNullException(nameof(s));
+        
+        if(!Studenti.Contains(s))
+            throw new InvalidOperationException("Student není ve třídě zapsán.");
+
         Studenti.Remove(s);
     }
 
@@ -44,9 +43,15 @@ public class Trida
     {
         Console.WriteLine($"Třída: {Nazev}");
 
-        for(int i = 0;i < Studenti.Count; i++)
+        if(Studenti.Count == 0)
         {
-            Console.WriteLine($"{i+ 1}. {Studenti[i]}");
+            Console.WriteLine("Žádní studenti nejsou zapsáni.");
+            return;
+        }
+
+        for(int i = 0; i < Studenti.Count; i++)
+        {
+            Console.WriteLine($"{ i+1 }. {Studenti[i]}");
         }
     }
 }
